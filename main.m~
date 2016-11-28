@@ -1,0 +1,6 @@
+clear; close all;
+load ('figs.mat');
+train_x = Diamond.train_x;
+train_y = Diamond.train_y;
+test_x = Diamond.test_x;
+test_y = Diamond.test_y;
