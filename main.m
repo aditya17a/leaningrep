@@ -4,7 +4,7 @@ train_x = Diamod.train_x;
 train_y = Diamod.train_y;
 test_x = Diamod.test_x;
 test_y = Diamod.test_y;
-h = [8 4];
+h = [4];
 
 [model,mse] = mlp(train_x',train_y',h);
 plot(mse);

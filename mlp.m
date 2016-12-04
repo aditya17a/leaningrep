@@ -16,9 +16,10 @@ for l = 1:L-1
 end
 Z = cell(L);
 Z{1} = X;
-eta = 10*1/size(X,2);
+lr = 0.01;
+eta = 1/size(X,2);
 %eta = 0.01;
-maxiter = 20000;
+maxiter = 2000000;
 mse = zeros(1,maxiter);
 for iter = 1:maxiter
 %     forward
@@ -32,11 +33,12 @@ for iter = 1:maxiter
         df = Z{l+1}.*(1-Z{l+1});
         dG = df.*E;
         dW = Z{l}*dG';
-        W{l} = W{l}+eta*dW;
+        W{l} = W{l}+lr*eta*dW;
         E = W{l}*dG;
     end
     if mod(iter,100) == 0
         disp(['Iteration: ', num2str(iter), '|Error: ', num2str(mse(iter))])
+        fflush(stdout);
     end
 end
 mse = mse(1:iter);
