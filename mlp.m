@@ -16,12 +16,15 @@ for l = 1:L-1
 end
 Z = cell(L);
 Z{1} = X;
-lr = 0.01;
+lr = 0.1;
 eta = 1/size(X,2);
 %eta = 0.01;
 maxiter = 2000000;
 mse = zeros(1,maxiter);
 for iter = 1:maxiter
+    if mod(iter,100) == 1
+    tic()
+    end
 %     forward
     for l = 2:L
         Z{l} = sigmoid(W{l-1}'*Z{l-1});
@@ -38,6 +41,7 @@ for iter = 1:maxiter
     end
     if mod(iter,100) == 0
         disp(['Iteration: ', num2str(iter), '|Error: ', num2str(mse(iter))])
+        toc()
         fflush(stdout);
     end
 end
