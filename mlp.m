@@ -7,38 +7,28 @@ function [model, mse] = mlp(X, Y, h)
 % Ouput:
 %   model: model structure
 %   mse: mean square error
-% Written by Mo Chen (sth4nth@gmail.com).
-h = [size(X,1);h(:);size(Y,1)];
-L = numel(h);
-W = cell(L-1);
-for l = 1:L-1
-    W{l} = randn(h(l),h(l+1));
-end
-Z = cell(L);
-Z{1} = X;
-lr = 0.1;
-eta = 1/size(X,2);
+
+h = [size(X,1);h(:);size(Y,1)]; % Adding input and output layers
+
+W = initializeWeights(h);
+#Z = cell(L);
+#Z{1} = X;
+lr = 10;
+eta = lr*1/size(X,2);
 %eta = 0.01;
-maxiter = 2000000;
+maxiter = 20000;
 mse = zeros(1,maxiter);
 for iter = 1:maxiter
+%     timer start
     if mod(iter,100) == 1
     tic()
     end
 %     forward
-    for l = 2:L
-        Z{l} = sigmoid(W{l-1}'*Z{l-1});
-    end
-%     backward
-    E = Y-Z{L};
-    mse(iter) = mean(dot(E(:),E(:)));
-    for l = L-1:-1:1
-        df = Z{l+1}.*(1-Z{l+1});
-        dG = df.*E;
-        dW = Z{l}*dG';
-        W{l} = W{l}+lr*eta*dW;
-        E = W{l}*dG;
-    end
+    Z = forwardPass(X, W);
+%     backward    
+    [W, mse(iter)] = backProp(Z, Y, W, eta);
+    
+%     print results
     if mod(iter,100) == 0
         disp(['Iteration: ', num2str(iter), '|Error: ', num2str(mse(iter))])
         toc()
