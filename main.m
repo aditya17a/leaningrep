@@ -6,7 +6,9 @@ test_x = Diamod.test_x;
 test_y = Diamod.test_y;
 h = [8 8];
 
-[model,mse] = mlp(train_x',train_y',h);
+%[model,mse] = mlp(train_x',train_y',h);
+[model,mse] = mlpStochGD(train_x',train_y',h);
+
 plot(mse);
 
 predictions = mlpPred(model,test_x');
