@@ -7,10 +7,11 @@ function y = mlpPred(model, X)
 %   Y: p x n response matrix
 % Written by Mo Chen (sth4nth@gmail.com).
 W = model.W;
+b = model.b;
 L = length(W)+1;
 Z = cell(L);
 Z{1} = X;
 for l = 2:L
-    Z{l} = sigmoid(W{l-1}'*Z{l-1});
+    Z{l} = sigmoid(W{l-1}'*Z{l-1} + b{l-1}');
 end
 y = Z{L};

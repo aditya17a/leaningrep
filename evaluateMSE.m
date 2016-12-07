@@ -7,7 +7,7 @@ function [E, mse] = evaluateMSE(Y, Z_out)
 % Y = Real output (response) data. Size: p x n
 % Z_out = Output of the network. Size: p x n
 
-E = Y-Z_out;
+E = Z_out - Y;
 mse = mean(dot(E(:),E(:)));
 
 
